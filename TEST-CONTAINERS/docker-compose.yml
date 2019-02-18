@@ -1,0 +1,28 @@
+# Не использовать ТАБЫ!
+version: '3.1'
+
+services:
+
+  db:
+    # build сообщает, что сервис дожен быть запущен из докер-файла в директории 
+    build: ./db
+    # image: mariadb - так как добавили build
+    #перезагрузка если упала база
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    # тома - позволяет смонтировать файловую систему не в контейнере а локально. На локальной машине:в контенере (документация)
+    volumes:   
+      - ./databases:/var/lib/mysql
+
+  adminer:
+    build: ./adminer
+    # image: adminer
+    restart: always
+    ports:
+      # на хосте:в контейнере(документация)
+      - 8085:8080
+
+
+  
+    #if address in use - sudo netstat -pna | grep 8080    
